@@ -1,17 +1,17 @@
 CXX = g++
 CXXFLAGS = -I . -Wall -Werror -Wextra -pedantic 
 
-bin/automaton_simulator: src/main.cpp bin/pushdown_automaton_reader.o bin/pushdown_automaton.o bin/alphabet.o bin/state.o bin/transition.o
+bin/automaton_simulator: src/main.cpp bin/pda_reader.o bin/pda.o bin/alphabet.o bin/state.o bin/transition.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-bin/pushdown_automaton_reader.o: src/pushdown_automaton_reader.cpp headers/pushdown_automaton_reader.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ src/pushdown_automaton_reader.cpp
+bin/pda_reader.o: src/pda_reader.cpp headers/pda_reader.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ src/pda_reader.cpp
 
-bin/pushdown_automaton.o: src/pushdown_automaton.cpp headers/pushdown_automaton.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ src/pushdown_automaton.cpp
+bin/pda.o: src/pda.cpp headers/pda.hpp
+	$(CXX) $(CXXFLAGS) -c -o $@ src/pda.cpp
 
 bin/alphabet.o: src/alphabet.cpp headers/alphabet.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ src/pushdown_automaton.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ src/pda.cpp
 
 bin/state.o: src/state.cpp headers/state.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ src/state.cpp

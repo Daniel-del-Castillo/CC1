@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "headers/pushdown_automaton.hpp"
+#include "headers/pda.hpp"
 
 class PushdownAutomatonReader {
     public:
