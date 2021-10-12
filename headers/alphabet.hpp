@@ -1,7 +1,8 @@
 #pragma once
 
 #include <set>
+#include <string>
 
 class Alphabet {
-    std::set tokens;
-}
+    std::set<std::string> tokens;
+};
