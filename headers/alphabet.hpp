@@ -10,5 +10,5 @@ class Alphabet {
     Alphabet();
     Alphabet(std::vector<char> tokens);
     void add_token(char token);
-    bool contains(char token);
+    bool contains(char token) const;
 };

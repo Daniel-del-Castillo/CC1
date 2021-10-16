@@ -1,8 +1,8 @@
 #pragma once
 
 #include <map>
-#include <stack>
 #include <string>
+#include <deque>
 
 #include "headers/alphabet.hpp"
 #include "headers/state.hpp"
@@ -23,4 +23,8 @@ class PDA {
         std::string initial_state,
         char initial_stack_token
     );
+    bool check_string(const std::string& s) const;
+    
+    private:
+    bool check_string(const std::string& s, const std::string& actual_state, std::deque<char> stack) const;
 };

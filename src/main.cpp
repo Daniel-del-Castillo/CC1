@@ -42,4 +42,5 @@ int main(int argc, char** argv) {
 
     ifstream input_file(definition_file);
     PDA pda = PDAReader::read_pda(input_file);
+    cout << pda.check_string("ab");
 }

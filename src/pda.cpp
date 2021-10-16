@@ -2,6 +2,8 @@
 
 using std::map;
 using std::string;
+using std::deque;
+using std::vector;
 
 PDA::PDA(
     Alphabet tape_alphabet,
@@ -15,3 +17,28 @@ PDA::PDA(
     states(states),
     initial_state(initial_state),
     initial_stack_token(initial_stack_token) {}
+
+bool PDA::check_string(const string& s) const {
+    deque<char> stack;
+    stack.push_front(initial_stack_token);
+    return check_string(s, initial_state, stack);
+}
+
+bool PDA::check_string(const string& s, const string& actual_state_name, deque<char> stack) const {
+   State actual_state = states.at(actual_state_name);
+   char stack_token = stack.front();
+   stack.pop_front();
+   for (const Transition& transition: actual_state.get_valid_transitions(s[0], stack_token)) {
+       vector<char> stack_tokens = transition.get_new_stack_tokens();
+       for (auto it = stack_tokens.end() - 1; it >= stack_tokens.begin(); it--) {
+            stack.push_front(*it);
+       }
+       if (check_string(s.substr(1), transition.get_destination(), stack)) {
+           return true;
+       }
+       for (size_t i = 0; i < stack_tokens.size(); i++) {
+           stack.pop_front();
+       }
+   }
+   return false;
+}
