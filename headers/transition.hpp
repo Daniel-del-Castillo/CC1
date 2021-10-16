@@ -5,7 +5,15 @@
 
 class Transition {
     std::string destination;  
-    std::string stack_token;
-    std::string tape_token;
-    std::vector<std::string> new_stack_tokens;
+    char stack_token;
+    char tape_token;
+    std::vector<char> new_stack_tokens;
+    
+    public:
+    Transition(
+        std::string destination,
+        char stack_token,
+        char tape_token,
+        std::vector<char> new_stack_tokens
+    );
 };

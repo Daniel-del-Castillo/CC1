@@ -1,8 +1,14 @@
 #pragma once
 
 #include <set>
-#include <string>
+#include <vector>
 
 class Alphabet {
-    std::set<std::string> tokens;
+    std::set<char> tokens;
+    
+    public:
+    Alphabet();
+    Alphabet(std::vector<char> tokens);
+    void add_token(char token);
+    bool contains(char token);
 };

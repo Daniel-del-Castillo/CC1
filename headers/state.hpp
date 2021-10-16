@@ -6,4 +6,8 @@
 
 class State {
     std::vector<Transition> transitions;
+
+    public:
+    State();
+    void add_transition(Transition transition);
 };

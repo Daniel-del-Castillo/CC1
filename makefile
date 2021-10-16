@@ -11,13 +11,16 @@ bin/pda.o: src/pda.cpp headers/pda.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ src/pda.cpp
 
 bin/alphabet.o: src/alphabet.cpp headers/alphabet.hpp
-	$(CXX) $(CXXFLAGS) -c -o $@ src/pda.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ src/alphabet.cpp
 
 bin/state.o: src/state.cpp headers/state.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ src/state.cpp
 
 bin/transition.o: src/transition.cpp headers/transition.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ src/transition.cpp 
+
+run: bin/automaton_simulator
+	bin/automaton_simulator test/APv
 
 clean:
 	rm bin/*
