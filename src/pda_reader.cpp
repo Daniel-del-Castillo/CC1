@@ -18,6 +18,7 @@ PDA PDAReader::read_pda_from_stream(istream& input) {
     tape_alphabet = read_alphabet(read_line(input));
     tape_alphabet.add_token(EPSILON);
     stack_alphabet = read_alphabet(read_line(input));
+    stack_alphabet.add_token(EPSILON);
     string initial_state = read_line(input);
     if (states.count(initial_state) == 0) {
         throw logic_error("Initial state (" + initial_state + ") isn't part of the states");
@@ -93,18 +94,18 @@ void PDAReader::add_transition(const std::string& line) {
         throw logic_error("State (" + words[0] + ") isn't registered");
     }
     if (!tape_alphabet.contains(words[1][0])) {
-        throw logic_error("Token (" + words[1] + ") isn't registered in the tape alphabet");
+        throw logic_error(string("Token (") + words[1][0] + ") isn't registered in the tape alphabet");
     }
     if (!stack_alphabet.contains(words[2][0])) {
-        throw logic_error("Token (" + words[2] + ") isn't registered in the stack alphabet");
+        throw logic_error(string("Token (") + words[2][0] + ") isn't registered in the stack alphabet");
     }
     if (states.count(words[3]) == 0) {
         throw logic_error("State (" + words[3] + ") isn't registered");
     }
     vector<char> tape_output;
     for (size_t i = 4; i < words.size(); i++) {
-        if (!tape_alphabet.contains(words[i][0])) {
-            throw logic_error(string("Token (") + words[1][0] + ") isn't registered in the tape alphabet");
+        if (!stack_alphabet.contains(words[i][0])) {
+            throw logic_error(string("Token (") + words[i][0] + ") isn't registered in the stack alphabet");
         }
         tape_output.push_back(words[i][0]);
     }
@@ -115,16 +116,20 @@ void PDAReader::add_transition(const std::string& line) {
 vector<string> PDAReader::split_whitespace(const string& line) {
     vector<string> words;    
     size_t position = 0;
-    do {
+    while (true) {
        size_t start = line.find_first_not_of(' ', position);
        size_t end = line.find_first_of(' ', start);
+       size_t size = end;
        if (start == string::npos) {
            break;
-       } else if (end == string::npos) {
-           end = words.size() - 1;
+       } else if (end != string::npos) {
+           size -= start;
        }
-       words.push_back(line.substr(start, end));
+       words.push_back(line.substr(start, size));
+       if (end == string::npos) {
+           break;
+       }
        position = end;
-    } while (position < line.size());
+    }
     return words;
 }
