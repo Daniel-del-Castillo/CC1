@@ -23,7 +23,7 @@ bin/transition.o: src/transition.cpp headers/transition.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ src/transition.cpp 
 
 run: bin/automaton_simulator
-	bin/automaton_simulator test/APv -d
+	bin/automaton_simulator test/APv2 -d
 
 clean:
 	rm bin/*
