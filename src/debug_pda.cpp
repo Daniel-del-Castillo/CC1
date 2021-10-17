@@ -34,8 +34,8 @@ DebugPDA::DebugPDA(
             print_transition(transition, state.first);
         }
     }
-
 }
+
 string DebugPDA::states_to_string(const map<string, State>& states) const {
     string result = "{ "; 
     for (auto name_state_pair : states) {
