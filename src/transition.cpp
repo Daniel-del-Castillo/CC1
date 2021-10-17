@@ -1,5 +1,7 @@
 #include "headers/transition.hpp"
 
+#include <iostream>
+
 using std::string;
 using std::vector;
 
@@ -40,5 +42,5 @@ vector<char> Transition::get_new_stack_tokens() const {
 }
 
 bool Transition::is_valid_transition(char tape_token, char stack_token) const {
-    return (tape_token == this->tape_token || this->tape_token == EPSILON) && stack_token == this->tape_token;
+    return (tape_token == this->tape_token || this->tape_token == EPSILON) && stack_token == this->stack_token;
 }

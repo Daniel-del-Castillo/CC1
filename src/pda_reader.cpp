@@ -17,25 +17,25 @@ PDA* PDAReader::read_pda_from_stream(istream& input, bool debug) {
     tape_alphabet.add_token(EPSILON);
     stack_alphabet = read_alphabet(read_line(input));
     stack_alphabet.add_token(EPSILON);
-    string initial_state = read_line(input);
-    if (states.count(initial_state) == 0) {
-        throw logic_error("Initial state (" + initial_state + ") isn't part of the states");
-    }
-    char initial_stack_token = read_line(input)[0];
-    if (!stack_alphabet.contains(initial_stack_token)) {
-        throw logic_error(
-            string("Initial stack token (") + initial_stack_token + ") isn't part of the stack alphabet"
-        );
-    }
-    if (initial_stack_token == EPSILON) {
-        throw logic_error("Initial stack token can't be empty (\".\")");
-    }
+    string initial_state = read_initial_state(read_line(input));
+    char initial_stack_token = read_initial_stack_token(read_line(input));
     add_transitions(input);
     if (debug) {
-        return (PDA*) new 
-            DebugPDA(tape_alphabet, stack_alphabet, states, initial_state, initial_stack_token);
+        return (PDA*) new DebugPDA(
+            tape_alphabet,
+            stack_alphabet,
+            states,
+            initial_state,
+            initial_stack_token
+        );
     } else {
-        return new PDA(tape_alphabet, stack_alphabet, states, initial_state, initial_stack_token);
+        return new PDA(
+            tape_alphabet,
+            stack_alphabet,
+            states,
+            initial_state,
+            initial_stack_token
+        );
     }
 }
 
@@ -71,6 +71,26 @@ Alphabet PDAReader::read_alphabet(const string& line) {
         result.add_token(token[0]);
     }
     return result;
+}
+
+string PDAReader::read_initial_state(const std::string& line) {
+    if (states.count(line) == 0) {
+        throw logic_error("Initial state (" + line + ") isn't part of the states");
+    }
+    return line;
+}
+
+char PDAReader::read_initial_stack_token(const std::string& line) {
+    char initial_stack_token = line[0];
+    if (!stack_alphabet.contains(initial_stack_token)) {
+        throw logic_error(
+            string("Initial stack token (") + initial_stack_token + ") isn't part of the stack alphabet"
+        );
+    }
+    if (initial_stack_token == EPSILON) {
+        throw logic_error("Initial stack token can't be empty (\".\")");
+    }
+    return initial_stack_token;
 }
 
 void PDAReader::add_transitions(istream& input) {
@@ -114,7 +134,7 @@ void PDAReader::add_transition(const std::string& line, int id) {
         }
         tape_output.push_back(words[i][0]);
     }
-    Transition transition(id, words[3], words[2][0], words[1][0], tape_output);
+    Transition transition(id, words[3], words[1][0], words[2][0], tape_output);
     states.at(words[0]).add_transition(transition);
 }
 

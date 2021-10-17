@@ -6,6 +6,7 @@ using std::deque;
 using std::map;
 using std::cout;
 using std::setw;
+using std::to_string;
 
 DebugPDA::DebugPDA(
     Alphabet tape_alphabet,
@@ -83,7 +84,7 @@ bool DebugPDA::check_string(const string& s) const {
     cout << setw(10) << "State" << SEPARATOR;
     cout << setw(15) << "String" << SEPARATOR;
     cout << setw(15) << "Stack" << SEPARATOR;
-    cout << setw(15) << "Transitions" << "\n";
+    cout << setw(12) << "Transitions" << "\n";
     print_vertical_separator(54);
     return PDA::check_string(s);
 }
@@ -101,8 +102,8 @@ bool DebugPDA::check_string(const string& s, const string& actual_state_name, de
         states.at(actual_state_name).get_valid_transitions(s[0], stack.front());
     string transitions_output;
     for (auto transition : transitions) {
-        transitions_output += transition.get_id();
+        transitions_output += to_string(transition.get_id());
     }
-    cout << setw(14) << transitions_output << "\n";
+    cout << setw(11) << transitions_output << "\n";
     return PDA::check_string(s, actual_state_name, stack);
 }

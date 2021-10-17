@@ -24,6 +24,8 @@ class PDAReader {
     std::string read_line(std::istream& input);
     std::map<std::string, State> read_states(const std::string& line);
     Alphabet read_alphabet(const std::string& line);
+    std::string read_initial_state(const std::string& line);
+    char read_initial_stack_token(const std::string& line);
     void add_transitions(std::istream &input);
     void add_transition(const std::string& line, int id);
     std::vector<std::string> split_whitespace(const std::string& line);
