@@ -18,7 +18,6 @@ class PDAReader {
 
     public:
     static PDA* read_pda(std::istream& input, bool debug);
-    PDAReader();
     PDA* read_pda_from_stream(std::istream& input, bool debug);
     
     private:

@@ -9,12 +9,10 @@
 #include "headers/alphabet.hpp"
 #include "headers/pda.hpp"
 
-#define VERTICAL_SEPARATOR "❚"
-#define HORIZONTAL_SEPARATOR "━"
+#define SEPARATOR "█"
 
 // PDA stands for PushDown Automaton
 class DebugPDA : PDA {
-    
     public: 
     DebugPDA(
         Alphabet tape_alphabet,
@@ -33,5 +31,6 @@ class DebugPDA : PDA {
     ) const override;
     std::string states_to_string(const std::map<std::string, State>& states) const;
     std::string alphabet_to_string(const Alphabet& alphabet) const;
-    void print_horizontal_separator() const;
+    void print_vertical_separator(int width) const;
+    void print_transition(const Transition& transition, const std::string& state_name) const;
 };

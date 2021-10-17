@@ -21,27 +21,16 @@ DebugPDA::DebugPDA(
     cout << string("Z: ") + initial_stack_token + "\n"; 
     cout << "δ:\n"; 
     cout << std::left;
-    cout << setw(3) << "ID" << VERTICAL_SEPARATOR;
-    cout << setw(6) << "State" << VERTICAL_SEPARATOR;
-    cout << setw(11) << "Tape token" << VERTICAL_SEPARATOR;
-    cout << setw(12) << "Stack token" << VERTICAL_SEPARATOR;
-    cout << setw(12) << "Destination" << VERTICAL_SEPARATOR;
-    cout << setw(17) << "New stack tokens" << VERTICAL_SEPARATOR << "\n";
-    print_horizontal_separator();
+    cout << setw(3) << "ID" << SEPARATOR;
+    cout << setw(6) << "State" << SEPARATOR;
+    cout << setw(11) << "Tape token" << SEPARATOR;
+    cout << setw(12) << "Stack token" << SEPARATOR;
+    cout << setw(12) << "Destination" << SEPARATOR;
+    cout << setw(17) << "New stack tokens" << "\n";
+    print_vertical_separator(65);
     for (auto state : states) {
         for (auto transition : state.second.get_transitions()) {
-           cout << std::right;
-           cout << setw(2) << transition.get_id() << " " << VERTICAL_SEPARATOR;
-           cout << setw(5) << state.first << " " << VERTICAL_SEPARATOR;
-           cout << setw(10) << transition.get_tape_token() << " " << VERTICAL_SEPARATOR;
-           cout << setw(11) << transition.get_stack_token() << " " << VERTICAL_SEPARATOR;
-           cout << setw(11) << transition.get_destination() << " " << VERTICAL_SEPARATOR;
-           string new_stack_tokens;
-           for (auto token : transition.get_new_stack_tokens()) {
-               new_stack_tokens += token;
-           }
-           cout << setw(16) << new_stack_tokens << " " << VERTICAL_SEPARATOR;
-           cout << "\n";
+            print_transition(transition, state.first);
         }
     }
 
@@ -66,17 +55,54 @@ string DebugPDA::alphabet_to_string(const Alphabet& alphabet) const {
     return result;
 }
 
-void DebugPDA::print_horizontal_separator() const {
-    for (int i = 0; i < 70; i++) {
-        cout << HORIZONTAL_SEPARATOR;
+void DebugPDA::print_vertical_separator(int width) const {
+    for (int i = 0; i < width; i++) {
+        cout << SEPARATOR;
     }
     cout << "\n";
 }
 
+void DebugPDA::print_transition(const Transition& transition, const string& state_name) const {
+   cout << std::right;
+   cout << setw(2) << transition.get_id() << " " << SEPARATOR;
+   cout << setw(5) << state_name << " " << SEPARATOR;
+   cout << setw(10) << transition.get_tape_token() << " " << SEPARATOR;
+   cout << setw(11) << transition.get_stack_token() << " " << SEPARATOR;
+   cout << setw(11) << transition.get_destination() << " " << SEPARATOR;
+   string new_stack_tokens;
+   for (auto token : transition.get_new_stack_tokens()) {
+       new_stack_tokens += token;
+   }
+   cout << setw(16) << new_stack_tokens << " " ;
+   cout << "\n";
+}
+
 bool DebugPDA::check_string(const string& s) const {
+    cout << "\nTrace:\n";
+    cout << std::left;
+    cout << setw(10) << "State" << SEPARATOR;
+    cout << setw(15) << "String" << SEPARATOR;
+    cout << setw(15) << "Stack" << SEPARATOR;
+    cout << setw(15) << "Transitions" << "\n";
+    print_vertical_separator(54);
     return PDA::check_string(s);
 }
 
 bool DebugPDA::check_string(const string& s, const string& actual_state_name, deque<char> stack) const {
+    cout << std::right;
+    cout << setw(9) << actual_state_name << " " << SEPARATOR;
+    cout << setw(14) << s << " " << SEPARATOR;
+    string stack_output;
+    for (auto token : stack) {
+        stack_output += token;
+    }
+    cout << setw(14) << stack_output << " " << SEPARATOR;
+    vector<Transition> transitions = 
+        states.at(actual_state_name).get_valid_transitions(s[0], stack.front());
+    string transitions_output;
+    for (auto transition : transitions) {
+        transitions_output += transition.get_id();
+    }
+    cout << setw(14) << transitions_output << "\n";
     return PDA::check_string(s, actual_state_name, stack);
 }

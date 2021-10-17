@@ -6,8 +6,6 @@ using std::map;
 using std::logic_error;
 using std::vector;
 
-PDAReader::PDAReader() {}
-
 PDA* PDAReader::read_pda(std::istream& input, bool debug) {
     PDAReader reader;
     return reader.read_pda_from_stream(input, debug);
@@ -28,6 +26,9 @@ PDA* PDAReader::read_pda_from_stream(istream& input, bool debug) {
         throw logic_error(
             string("Initial stack token (") + initial_stack_token + ") isn't part of the stack alphabet"
         );
+    }
+    if (initial_stack_token == EPSILON) {
+        throw logic_error("Initial stack token can't be empty (\".\")");
     }
     add_transitions(input);
     if (debug) {
@@ -99,6 +100,9 @@ void PDAReader::add_transition(const std::string& line, int id) {
     }
     if (!stack_alphabet.contains(words[2][0])) {
         throw logic_error(string("Token (") + words[2][0] + ") isn't registered in the stack alphabet");
+    }
+    if (words[2][0] == EPSILON) {
+        throw logic_error("A transition must always consume a token from the stack");
     }
     if (states.count(words[3]) == 0) {
         throw logic_error("State (" + words[3] + ") isn't registered");
