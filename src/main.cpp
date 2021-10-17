@@ -23,10 +23,10 @@ int main(int argc, char** argv) {
     }
     std::string definition_file;
     std::string strings_file;
-    // bool debug = false;
+    bool debug = false;
     for (int i = 1; i < argc; i++) {
         if (string(argv[i]) == "-d") {
-            // debug = true;
+            debug = true;
             continue;
         }
         if (definition_file.empty()) {
@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
     }
 
     ifstream input_file(definition_file);
-    PDA pda = PDAReader::read_pda(input_file);
-    cout << pda.check_string("ab");
+    PDA* pda = PDAReader::read_pda(input_file, debug);
+    cout << pda->check_string("ab");
+    free(pda);
 }

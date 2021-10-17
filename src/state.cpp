@@ -17,3 +17,7 @@ vector<Transition> State::get_valid_transitions(char tape_token, char stack_toke
    }
    return result;
 }
+
+const std::vector<Transition>& State::get_transitions() const {
+   return transitions;
+}

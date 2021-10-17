@@ -8,12 +8,12 @@ using std::vector;
 
 PDAReader::PDAReader() {}
 
-PDA PDAReader::read_pda(std::istream& input) {
+PDA* PDAReader::read_pda(std::istream& input, bool debug) {
     PDAReader reader;
-    return reader.read_pda_from_stream(input);
+    return reader.read_pda_from_stream(input, debug);
 }
 
-PDA PDAReader::read_pda_from_stream(istream& input) {
+PDA* PDAReader::read_pda_from_stream(istream& input, bool debug) {
     states = read_states(read_line(input));
     tape_alphabet = read_alphabet(read_line(input));
     tape_alphabet.add_token(EPSILON);
@@ -30,13 +30,12 @@ PDA PDAReader::read_pda_from_stream(istream& input) {
         );
     }
     add_transitions(input);
-    return PDA(
-        tape_alphabet,
-        stack_alphabet,
-        states,
-        initial_state,
-        initial_stack_token
-    );
+    if (debug) {
+        return (PDA*) new 
+            DebugPDA(tape_alphabet, stack_alphabet, states, initial_state, initial_stack_token);
+    } else {
+        return new PDA(tape_alphabet, stack_alphabet, states, initial_state, initial_stack_token);
+    }
 }
 
 string PDAReader::read_line(istream& input) {
@@ -74,6 +73,7 @@ Alphabet PDAReader::read_alphabet(const string& line) {
 }
 
 void PDAReader::add_transitions(istream& input) {
+    int counter = 1;
     while (true) {
         std::string line;
         try {
@@ -81,11 +81,12 @@ void PDAReader::add_transitions(istream& input) {
         } catch(const logic_error& error) {
             break;
         }
-        add_transition(line);
+        add_transition(line, counter);
+        counter++;
     }
 }
 
-void PDAReader::add_transition(const std::string& line) {
+void PDAReader::add_transition(const std::string& line, int id) {
     vector<string> words = split_whitespace(line);
     if (words.size() < 5) {
         throw logic_error("Invalid transition" + line);
@@ -109,7 +110,7 @@ void PDAReader::add_transition(const std::string& line) {
         }
         tape_output.push_back(words[i][0]);
     }
-    Transition transition(words[3], words[2][0], words[1][0], tape_output);
+    Transition transition(id, words[3], words[2][0], words[1][0], tape_output);
     states.at(words[0]).add_transition(transition);
 }
 

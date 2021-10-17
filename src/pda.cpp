@@ -18,6 +18,8 @@ PDA::PDA(
     initial_state(initial_state),
     initial_stack_token(initial_stack_token) {}
 
+PDA::~PDA() {}
+
 bool PDA::check_string(const string& s) const {
     deque<char> stack;
     stack.push_front(initial_stack_token);
@@ -33,7 +35,8 @@ bool PDA::check_string(const string& s, const string& actual_state_name, deque<c
        for (auto it = stack_tokens.end() - 1; it >= stack_tokens.begin(); it--) {
             stack.push_front(*it);
        }
-       if (check_string(s.substr(1), transition.get_destination(), stack)) {
+       string new_string = transition.is_epsilon() ? s : s.substr(1);
+       if (check_string(new_string, transition.get_destination(), stack)) {
            return true;
        }
        for (size_t i = 0; i < stack_tokens.size(); i++) {

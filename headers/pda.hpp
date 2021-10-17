@@ -9,6 +9,7 @@
 
 // PDA stands for PushDown Automaton
 class PDA {
+    protected:
     Alphabet tape_alphabet;
     Alphabet stack_alphabet;
     std::map<std::string, State> states;
@@ -23,8 +24,9 @@ class PDA {
         std::string initial_state,
         char initial_stack_token
     );
-    bool check_string(const std::string& s) const;
+    virtual ~PDA();
+    virtual bool check_string(const std::string& s) const;
     
-    private:
-    bool check_string(const std::string& s, const std::string& actual_state, std::deque<char> stack) const;
+    protected:
+    virtual bool check_string(const std::string& s, const std::string& actual_state, std::deque<char> stack) const;
 };
