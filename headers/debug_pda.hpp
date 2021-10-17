@@ -13,6 +13,7 @@
 
 // PDA stands for PushDown Automaton
 class DebugPDA : PDA {
+    mutable bool is_backtracking;
     public: 
     DebugPDA(
         Alphabet tape_alphabet,

@@ -29,10 +29,7 @@ bool PDA::check_string(const string& s) const {
 bool PDA::check_string(const string& s, const string& actual_state_name, deque<char> stack) const {
     State actual_state = states.at(actual_state_name);
     if (stack.empty()) {
-        if (s.empty()) {
-            return true;
-        }
-        return false;
+        return s.empty();
     }
     char stack_token = stack.front();
     stack.pop_front();
@@ -41,7 +38,7 @@ bool PDA::check_string(const string& s, const string& actual_state_name, deque<c
         vector<char> stack_tokens = transition.get_new_stack_tokens();
         for (auto it = stack_tokens.end() - 1; it >= stack_tokens.begin(); it--) {
             if (*it != EPSILON) {
-               stack.push_front(*it);
+                stack.push_front(*it);
             }
         }
         string new_string = transition.is_epsilon() ? s: s.substr(1);

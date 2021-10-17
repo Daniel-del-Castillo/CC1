@@ -15,6 +15,7 @@ DebugPDA::DebugPDA(
     string initial_state,
     char initial_stack_token
 ) : PDA(tape_alphabet, stack_alphabet, states, initial_state, initial_stack_token) {
+    is_backtracking = false;
     cout << "Q: " + states_to_string(states) + "\n"; 
     cout << "Σ: " + alphabet_to_string(tape_alphabet) + "\n"; 
     cout << "Γ: " + alphabet_to_string(stack_alphabet) + "\n"; 
@@ -41,8 +42,7 @@ string DebugPDA::states_to_string(const map<string, State>& states) const {
     for (auto name_state_pair : states) {
         result += name_state_pair.first + ", ";
     }
-    result = result.substr(0, result.size() - 2);
-    result += " }";
+    result = result.substr(0, result.size() - 2) + " }";
     return result;
 }
 
@@ -51,8 +51,7 @@ string DebugPDA::alphabet_to_string(const Alphabet& alphabet) const {
     for (auto token : alphabet.get_tokens()) {
         result += token + string(", ");
     }
-    result = result.substr(0, result.size() - 2);
-    result += " }";
+    result = result.substr(0, result.size() - 2) + " }";
     return result;
 }
 
@@ -90,6 +89,7 @@ bool DebugPDA::check_string(const string& s) const {
 }
 
 bool DebugPDA::check_string(const string& s, const string& actual_state_name, deque<char> stack) const {
+    is_backtracking = false;
     cout << std::right;
     cout << setw(9) << actual_state_name << " " << SEPARATOR;
     cout << setw(14) << s << " " << SEPARATOR;
@@ -102,8 +102,13 @@ bool DebugPDA::check_string(const string& s, const string& actual_state_name, de
         states.at(actual_state_name).get_valid_transitions(s[0], stack.front());
     string transitions_output;
     for (auto transition : transitions) {
-        transitions_output += to_string(transition.get_id());
+        transitions_output += to_string(transition.get_id()) + " ";
     }
     cout << setw(11) << transitions_output << "\n";
-    return PDA::check_string(s, actual_state_name, stack);
+    bool result = PDA::check_string(s, actual_state_name, stack);
+    if (!result && !is_backtracking) {
+        print_vertical_separator(54);
+        is_backtracking = true;
+    }
+    return result;
 }
