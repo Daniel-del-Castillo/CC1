@@ -10,6 +10,11 @@
 #include "headers/pda.hpp"
 
 #define SEPARATOR "█"
+#define RED "\x1B[91m"
+#define GREEN "\x1B[92m"
+#define BLUE "\x1B[94m"
+#define YELLOW "\x1B[93m"
+#define RESET_COLOR "\033[0m"
 
 // PDA stands for PushDown Automaton
 class DebugPDA : PDA {
