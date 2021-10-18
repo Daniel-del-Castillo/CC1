@@ -7,7 +7,7 @@
 #include "headers/alphabet.hpp"
 #include "headers/state.hpp"
 
-// PDA stands for PushDown Automaton
+// PDA stands for PushDown Automaton.
 class PDA {
     protected:
     Alphabet tape_alphabet;

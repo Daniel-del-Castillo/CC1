@@ -11,6 +11,8 @@
 #include "headers/state.hpp"
 #include "headers/alphabet.hpp"
 
+// Allows reading a PDA from a file. The PDA can be a DebugPDA or PDA
+// depending on a debug flag
 class PDAReader {
     Alphabet tape_alphabet;
     Alphabet stack_alphabet;

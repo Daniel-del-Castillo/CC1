@@ -16,7 +16,8 @@
 #define YELLOW "\x1B[93m"
 #define RESET_COLOR "\033[0m"
 
-// PDA stands for PushDown Automaton
+// This class contains all the code related to debugging and printing
+// traces of the execution. It relies on the PDA class for the actual emulation
 class DebugPDA : PDA {
     mutable bool is_backtracking;
     public: 

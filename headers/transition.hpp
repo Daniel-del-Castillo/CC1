@@ -5,6 +5,8 @@
 
 #define EPSILON '.'
 
+// Represents a transition. It also contains an id, so the transitions
+// are easier to identify in the traces
 class Transition {
     int id;
     std::string destination;  

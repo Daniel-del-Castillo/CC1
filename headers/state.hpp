@@ -4,6 +4,8 @@
 
 #include "headers/transition.hpp"
 
+// This class represents a state and is able to inform
+// about which transitions can be made with a determined input
 class State {
     std::vector<Transition> transitions;
 
