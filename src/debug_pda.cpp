@@ -107,8 +107,8 @@ bool DebugPDA::check_string(const string& s, const string& actual_state_name, de
     cout << RED << setw(11) << transitions_output << RESET_COLOR << "\n";
     bool result = PDA::check_string(s, actual_state_name, stack);
     if (!result && !is_backtracking) {
-        print_vertical_separator(54);
-        is_backtracking = true;
+        print_vertical_separator(54); // Print a vertical separator when a branch ends
+        is_backtracking = true; 
     }
     return result;
 }
