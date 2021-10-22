@@ -43,6 +43,7 @@ void print_help() {
 void enter_reading_loop(PDA* pda) {
     string s;
     while (true) {
+        cout << "Write the string you want to check:\n";
         getline(cin, s);
         if (s == "exit") {
             return;

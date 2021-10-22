@@ -1,4 +1,5 @@
 # CC1
+## Daniel del Castillo de la Rosa
 This repository contains an implementation of a pushdown automaton emulator. It was made for the Computational Complexity subject at ULL.
 
 # Compiling
